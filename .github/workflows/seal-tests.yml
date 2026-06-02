@@ -2,21 +2,21 @@ name: Seal Tests
 
 on:
   push:
-    branches: [main, master, "litellm_internal_staging"]
+    branches: [main, master, litellm_internal_staging]
   pull_request:
     branches: [main, master]
 
 jobs:
   unit-tests:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     strategy:
       fail-fast: false
       matrix:
-        python-version: ["3.10", "3.11", "3.12"]
+        python-version: ['3.10', '3.11', '3.12']
     steps:
       - uses: actions/checkout@v4
       - name: Set up Python ${{ matrix.python-version }}
-        uses: actions/setup-python@v5
+        uses: MatteoH2O1999/setup-python@v4
         with:
           python-version: ${{ matrix.python-version }}
       - name: Install dependencies
@@ -33,13 +33,13 @@ jobs:
             -k "not (test_bedrock_rerank_header_forwarding or test_bedrock_rerank_extra_headers_and_headers_merge or test_img_url_token_counter or test_vertex_passthrough_with_default_credentials or test_vertex_passthrough_with_credentials or test_vertex_passthrough_with_global_location or test_vertex_discovery_passthrough_with_credentials or test_check_responses_cost or test_clean_contents_for_gemini_api or test_credentials_from_identity_pool or test_vertex_ai_gpt_oss or test_acompletion_basic_request or test_acompletion_error_handling or test_acompletion_fake_streaming or test_acompletion_filters_stream_and_stream_options or test_langfuse_client_count_decrements_on_eviction or test_langfuse_client_shutdown_called_on_eviction or test_get_experimental_ui_login_jwt_auth_token_valid or test_initialize_scheduled_jobs_credentials or test_watsonx_gpt_oss_prompt_transformation or test_url_with_format_param or test_gcs_cache_async_set_and_get)"
 
   check-circular-imports:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     steps:
       - uses: actions/checkout@v4
       - name: Set up Python 3.12
-        uses: actions/setup-python@v5
+        uses: MatteoH2O1999/setup-python@v4
         with:
-          python-version: "3.12"
+          python-version: '3.12'
       - name: Install dependencies
         run: |
           pip install poetry
